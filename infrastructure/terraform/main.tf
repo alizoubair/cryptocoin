@@ -90,11 +90,10 @@ module "cicd" {
               owner            = "AWS"
               provider         = "CodeStarSourceConnection"
               version          = "1"
-              output_artifacts = ["SourceArtifact"]
               configuration = {
                 ConnectionArn    = module.cicd.codestar_connection_arn
                 FullRepositoryId = var.github_repository
-                BranchName           = "{feature/*,infra/*}"
+                BranchName           = var.branch_name
               }
               input_artifacts  = []
               output_artifacts = ["source_output_artifacts"]
@@ -113,8 +112,6 @@ module "cicd" {
               owner            = "AWS"
               provider         = "CodeBuild"
               version          = "1"
-              input_artifacts  = ["source_output_artifacts"]
-              output_artifacts = ["validation_output_artifacts"]
               configuration = {
                 ProjectName = local.tf_test_codebuild_project_name
               }
@@ -149,11 +146,10 @@ module "cicd" {
               owner            = "AWS"
               provider         = "CodeStarSourceConnection"
               version          = "1"
-              output_artifacts = ["SourceArtifact"]
               configuration = {
                 ConnectionArn    = module.cicd.codestar_connection_arn
                 FullRepositoryId = var.github_repository
-                BranchName           = "{feature/*,infra/*}"
+                BranchName           = var.branch_name
               }
               input_artifacts  = []
               output_artifacts = ["source_output_artifacts"]
@@ -172,8 +168,6 @@ module "cicd" {
               owner            = "AWS"
               provider         = "CodeBuild"
               version          = "1"
-              input_artifacts  = ["source_output_artifacts"]
-              output_artifacts = ["deployment_output_artifacts"]
               configuration = {
                 ProjectName = local.tf_test_codebuild_project_name
               }
@@ -194,7 +188,6 @@ module "cicd" {
               owner           = "AWS"
               provider        = "CodeBuild"
               version         = "1"
-              input_artifacts = ["build_tf_test_output_artifacts"]
               configuration = {
                 ProjectName = local.tf_deploy_codebuild_project_name
               }
