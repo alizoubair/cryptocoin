@@ -14,7 +14,7 @@ resource "aws_codebuild_project" "codebuild_project" {
   }
   source {
     type      = each.value.source_type
-    buildspec = each.value.buildspec
+    buildspec = file(each.value.buildspec)
   }
   artifacts {
     type = each.value.artifacts_type
